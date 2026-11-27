@@ -2,7 +2,7 @@
 <html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Langsa Brew & Bites — Kopi & Kuliner Lokal Kota Langsa</title>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com 'nonce-expresso2026'; style-src 'self' https://fonts.googleapis.com https://unpkg.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://server.arcgisonline.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -16,6 +16,9 @@
     tailwind.config = {
       theme: {
         extend: {
+          screens: {
+            xs: '380px'
+          },
           colors: {
             warmCream: '#EFE5D8',
             creamActive: '#F3E5D8',
@@ -64,6 +67,15 @@
       color: var(--header-espresso);
     }
 
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
     .header-espresso {
       background: linear-gradient(135deg, #231712 0%, #2F1F18 100%);
       border-bottom: 1px solid rgba(230, 184, 125, 0.22);
@@ -77,9 +89,11 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
-    .card-warm:hover {
-      box-shadow: 0 16px 32px -8px rgba(35, 23, 18, 0.14);
-      border-color: #C87A4B;
+    @media (hover: hover) {
+      .card-warm:hover {
+        box-shadow: 0 16px 32px -8px rgba(35, 23, 18, 0.14);
+        border-color: #C87A4B;
+      }
     }
 
     .btn-caramel-grad {
@@ -106,6 +120,10 @@
 
     .btn-sage:hover {
       filter: brightness(1.07);
+    }
+
+    .btn-sage:active {
+      transform: scale(0.98);
     }
 
     .map-grid-bg {
@@ -144,6 +162,10 @@
       background: transparent;
       border: none;
     }
+
+    .pb-safe {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
   </style>
 </head>
 <body class="font-sans antialiased selection:bg-caramel selection:text-white min-h-screen flex flex-col">
@@ -151,33 +173,28 @@
   <!-- ========================================================= -->
   <!-- LAYAR PEMBUKA: HALAMAN LOGIN & TAB REGISTRASI             -->
   <!-- ========================================================= -->
-  <section id="authScreen" class="min-h-screen w-full flex items-center justify-center p-4 sm:p-6">
+  <section id="authScreen" class="min-h-screen w-full flex items-center justify-center p-3.5 sm:p-6 lg:p-8">
     <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden card-warm shadow-2xl">
       <!-- Panel Kiri: Branding Kopi Tua Pekat & Emas -->
-      <div class="lg:col-span-5 bg-espresso text-surface p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-        <div class="relative z-10 space-y-4">
+      <div class="lg:col-span-5 bg-espresso text-surface p-5 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+        <div class="relative z-10 space-y-3.5 sm:space-y-4">
           <div class="inline-flex items-center gap-3">
-            <div class="w-13 h-13 rounded-full bg-[#2B1B14] border-2 border-[#D48C46] shadow-lg flex items-center justify-center shrink-0 p-0.5">
-              <svg class="w-11 h-11" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <div class="w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-[#2B1B14] border-2 border-[#D48C46] shadow-lg flex items-center justify-center shrink-0 p-0.5">
+              <svg class="w-10 h-10 sm:w-11 sm:h-11" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="32" cy="32" r="29" stroke="#D48C46" stroke-width="2.2" fill="#231712" />
                 <circle cx="32" cy="32" r="25" stroke="#D48C46" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="2 2" />
-                <!-- Siluet Garpu (Kiri) -->
                 <path d="M13 21v7c0 1.8 1.3 3.2 3 3.4V43M15 21v6M17 21v7c0 1.8-1.3 3.2-3 3.4" stroke="#D48C46" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                <!-- Siluet Sendok (Kanan) -->
                 <ellipse cx="49" cy="24.5" rx="2.4" ry="3.8" stroke="#D48C46" stroke-width="1.6" />
                 <path d="M49 28.5V43" stroke="#D48C46" stroke-width="1.6" stroke-linecap="round" />
-                <!-- Biji Kopi & Daun Rempah (Atas) -->
                 <ellipse cx="29" cy="13.5" rx="3" ry="2" transform="rotate(-25 29 13.5)" fill="#D48C46" />
                 <path d="M27 14.3c1.3-.8 2.7-.8 4-1.6" stroke="#231712" stroke-width="1" stroke-linecap="round" />
                 <path d="M34 14.5c2.2-2.6 5.4-2.8 6.8-1.4-1.2 2.2-4 3-6.8 1.4Z" fill="#D48C46" />
-                <!-- Monogram LB -->
                 <text x="32" y="38.5" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="18.5" font-weight="bold" letter-spacing="0.5" fill="#D48C46">LB</text>
-                <!-- Aksen Daun Rempah Bawah -->
                 <path d="M25 48.5c2.4-1.8 5-1.5 7 0 2-1.5 4.6-1.8 7 0-2.3 1.7-4.8 1.8-7 .4-2.2 1.4-4.7 1.3-7-.4Z" fill="#D48C46" />
               </svg>
             </div>
             <div>
-              <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white">Langsa Brew & Bites</h1>
+              <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-tight text-white">Langsa Brew & Bites</h1>
               <p class="text-xs text-goldWarm font-medium">Kota Langsa, Aceh</p>
             </div>
           </div>
@@ -185,7 +202,7 @@
           <span class="inline-block px-3 py-1 rounded-full bg-sage text-white border border-white/15 text-[11px] font-semibold">
             Portal Multi-Peran Terpadu
           </span>
-          <h2 class="font-serif text-2xl sm:text-3xl font-bold leading-snug text-white">
+          <h2 class="font-serif text-xl sm:text-3xl font-bold leading-snug text-white">
             Cita Rasa Kopi Sanger & Kuliner Lokal Langsa
           </h2>
           <p class="text-xs sm:text-sm text-warmCream/85 leading-relaxed">
@@ -193,7 +210,7 @@
           </p>
         </div>
 
-        <div class="relative z-10 pt-6 mt-6 border-t border-goldWarm/20 space-y-1.5 text-xs text-warmCream/80">
+        <div class="relative z-10 pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-goldWarm/20 flex flex-wrap lg:flex-col justify-between gap-1 text-xs text-warmCream/80">
           <p class="font-semibold text-goldWarm">Jl. Ahmad Yani, Kota Langsa</p>
           <p>Buka Setiap Hari • 07.00 – 23.30 WIB</p>
         </div>
@@ -204,14 +221,14 @@
       </div>
 
       <!-- Panel Kanan: Tab Masuk (Login) & Daftar (Registrasi) -->
-      <div class="lg:col-span-7 bg-surface p-6 sm:p-8 flex flex-col justify-center space-y-5">
+      <div class="lg:col-span-7 bg-surface p-5 sm:p-8 flex flex-col justify-center space-y-4 sm:space-y-5">
         <div role="tablist" aria-label="Pilih mode autentikasi" class="grid grid-cols-2 p-1.5 rounded-2xl bg-woodLight/80 border border-sand">
           <button id="tabLoginBtn" type="button" role="tab" aria-selected="true"
-            class="py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition">
+            class="py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition">
             Masuk (Login)
           </button>
           <button id="tabRegisterBtn" type="button" role="tab" aria-selected="false"
-            class="py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-mocha hover:text-espresso transition">
+            class="py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-mocha hover:text-espresso transition">
             Daftar (Registrasi)
           </button>
         </div>
@@ -222,21 +239,21 @@
         <form id="loginForm" class="space-y-4" novalidate>
           <div class="space-y-2">
             <span class="block text-xs font-bold text-espresso">1. Pilih Peran Pengguna</span>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
               <button type="button" data-login-role="buyer"
                 class="login-role-card p-2.5 sm:p-3 rounded-2xl border-2 border-caramel bg-caramel/15 text-left transition">
                 <span class="block text-xs font-bold text-espresso">Pembeli</span>
-                <span class="block text-[10px] text-mocha mt-0.5">Pesan & Lacak</span>
+                <span class="block text-[10px] text-mocha mt-0.5 leading-tight">Pesan & Lacak</span>
               </button>
               <button type="button" data-login-role="seller"
                 class="login-role-card p-2.5 sm:p-3 rounded-2xl border border-sand bg-warmCream/60 text-left transition">
                 <span class="block text-xs font-bold text-espresso">Penjual</span>
-                <span class="block text-[10px] text-mocha mt-0.5">Admin Kafe</span>
+                <span class="block text-[10px] text-mocha mt-0.5 leading-tight">Admin Kafe</span>
               </button>
               <button type="button" data-login-role="courier"
                 class="login-role-card p-2.5 sm:p-3 rounded-2xl border border-sand bg-warmCream/60 text-left transition">
                 <span class="block text-xs font-bold text-espresso">Kurir Gojek</span>
-                <span class="block text-[10px] text-mocha mt-0.5">Antar Order</span>
+                <span class="block text-[10px] text-mocha mt-0.5 leading-tight">Antar Order</span>
               </button>
             </div>
           </div>
@@ -245,28 +262,28 @@
             <label for="loginIdentifierInput" class="block text-xs font-bold text-espresso mb-1">Email atau Username</label>
             <input id="loginIdentifierInput" type="text" autocomplete="username" maxlength="80"
               placeholder="Contoh: pembeli@expressolangsa.id"
-              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
           </div>
 
           <div>
             <div class="flex items-center justify-between mb-1">
               <label for="loginPasswordInput" class="block text-xs font-bold text-espresso">Kata Sandi (Password)</label>
-              <button id="toggleLoginPassBtn" type="button" class="text-[11px] font-semibold text-caramelDark hover:underline">
+              <button id="toggleLoginPassBtn" type="button" class="text-[11px] font-semibold text-caramelDark hover:underline py-0.5">
                 Tampilkan Sandi
               </button>
             </div>
             <input id="loginPasswordInput" type="password" autocomplete="current-password" maxlength="64"
               placeholder="Masukkan kata sandi"
-              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
           </div>
 
-          <div class="p-3 rounded-2xl bg-woodLight/50 border border-sand flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="p-3 rounded-2xl bg-woodLight/50 border border-sand flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div class="text-[11px] text-mocha">
               <span class="font-bold text-espresso block">Pengujian Cepat Prototype</span>
               <span id="demoHintLabel">Akun demo siap pakai untuk peran Pembeli</span>
             </div>
             <button id="fillDemoAccountBtn" type="button"
-              class="px-3.5 py-2 rounded-xl btn-sage text-xs font-semibold shrink-0">
+              class="w-full sm:w-auto px-3.5 py-2.5 rounded-xl btn-sage text-xs font-semibold shrink-0">
               Isi Akun Demo
             </button>
           </div>
@@ -281,25 +298,25 @@
           <div>
             <label for="regFullNameInput" class="block text-xs font-bold text-espresso mb-1">Nama Lengkap</label>
             <input id="regFullNameInput" type="text" maxlength="60" placeholder="Misal: Cut Meutia"
-              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label for="regIdentifierInput" class="block text-xs font-bold text-espresso mb-1">Email / Username</label>
               <input id="regIdentifierInput" type="text" maxlength="80" placeholder="nama@email.id"
-                class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+                class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
             </div>
             <div>
               <label for="regWhatsappInput" class="block text-xs font-bold text-espresso mb-1">Nomor WhatsApp</label>
               <input id="regWhatsappInput" type="tel" maxlength="20" placeholder="0812xxxxxxxx"
-                class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+                class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
             </div>
           </div>
 
           <div>
             <span class="block text-xs font-bold text-espresso mb-1.5">Daftar Sebagai Peran</span>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
               <button type="button" data-reg-role="buyer"
                 class="reg-role-card p-2.5 rounded-2xl border-2 border-caramel bg-caramel/15 text-center text-xs font-bold text-espresso transition">
                 Pembeli
@@ -318,7 +335,7 @@
           <div>
             <label for="regPasswordInput" class="block text-xs font-bold text-espresso mb-1">Buat Kata Sandi (Min. 6 Karakter)</label>
             <input id="regPasswordInput" type="password" maxlength="64" placeholder="Minimal 6 karakter"
-              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream/70 border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
           </div>
 
           <button type="submit" class="w-full btn-caramel-grad py-3.5 rounded-2xl text-sm font-bold">
@@ -336,76 +353,77 @@
 
   <!-- HEADER ATAS: COKELAT KOPI TUA PEKAT (#231712) + TEKS PUTIH/EMAS -->
   <header class="sticky top-0 z-40 header-espresso text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col gap-3">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 py-3 sm:py-3.5 flex flex-col gap-2.5 sm:gap-3">
       <!-- Baris Atas Header: Brand + Role Switcher + Profil & Logout -->
-      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3">
+      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-2.5 sm:gap-3">
         <!-- Brand & Info Kafe Langsa -->
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-[#2B1B14] border-2 border-[#D48C46] shadow-md flex items-center justify-center shrink-0 p-0.5">
-              <svg class="w-10 h-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <div class="flex items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#2B1B14] border-2 border-[#D48C46] shadow-md flex items-center justify-center shrink-0 p-0.5">
+              <svg class="w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="32" cy="32" r="29" stroke="#D48C46" stroke-width="2.2" fill="#231712" />
                 <circle cx="32" cy="32" r="25" stroke="#D48C46" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="2 2" />
-                <!-- Siluet Garpu (Kiri) -->
                 <path d="M13 21v7c0 1.8 1.3 3.2 3 3.4V43M15 21v6M17 21v7c0 1.8-1.3 3.2-3 3.4" stroke="#D48C46" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                <!-- Siluet Sendok (Kanan) -->
                 <ellipse cx="49" cy="24.5" rx="2.4" ry="3.8" stroke="#D48C46" stroke-width="1.6" />
                 <path d="M49 28.5V43" stroke="#D48C46" stroke-width="1.6" stroke-linecap="round" />
-                <!-- Biji Kopi & Daun Rempah (Atas) -->
                 <ellipse cx="29" cy="13.5" rx="3" ry="2" transform="rotate(-25 29 13.5)" fill="#D48C46" />
                 <path d="M27 14.3c1.3-.8 2.7-.8 4-1.6" stroke="#231712" stroke-width="1" stroke-linecap="round" />
                 <path d="M34 14.5c2.2-2.6 5.4-2.8 6.8-1.4-1.2 2.2-4 3-6.8 1.4Z" fill="#D48C46" />
-                <!-- Monogram LB -->
                 <text x="32" y="38.5" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="18.5" font-weight="bold" letter-spacing="0.5" fill="#D48C46">LB</text>
-                <!-- Aksen Daun Rempah Bawah -->
                 <path d="M25 48.5c2.4-1.8 5-1.5 7 0 2-1.5 4.6-1.8 7 0-2.3 1.7-4.8 1.8-7 .4-2.2 1.4-4.7 1.3-7-.4Z" fill="#D48C46" />
               </svg>
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white">Langsa Brew & Bites</h1>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sage text-white border border-white/15">
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <h1 class="font-serif text-base sm:text-2xl font-bold tracking-tight text-white truncate">Langsa Brew & Bites</h1>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-sage text-white border border-white/15 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span>
                   Buka
                 </span>
               </div>
-              <p class="text-xs text-goldWarm/90">Jl. Ahmad Yani, Kota Langsa • 07.00 – 23.30 WIB</p>
+              <p class="text-[11px] sm:text-xs text-goldWarm/90 truncate">Jl. Ahmad Yani, Kota Langsa • 07.00 – 23.30 WIB</p>
             </div>
           </div>
 
-          <!-- Tombol Logout Ringkas Mobile -->
-          <button id="logoutBtnMobile" type="button"
-            class="xl:hidden px-3 py-2 rounded-xl bg-rose-900/60 hover:bg-rose-700 text-rose-100 border border-rose-400/30 text-xs font-bold transition">
-            Logout
-          </button>
+          <!-- Tombol Aksi Cepat Mobile (Reset & Logout) -->
+          <div class="flex xl:hidden items-center gap-1.5 shrink-0">
+            <button id="resetSimMobileBtn" type="button" title="Reset Simulasi"
+              class="px-2.5 py-2 rounded-xl bg-roast hover:bg-amber-900/70 text-goldWarm border border-goldWarm/35 text-xs font-bold transition">
+              ↺
+            </button>
+            <button id="logoutBtnMobile" type="button"
+              class="px-2.5 sm:px-3 py-2 rounded-xl bg-rose-900/60 hover:bg-rose-700 text-rose-100 border border-rose-400/30 text-xs font-bold transition">
+              Logout
+            </button>
+          </div>
         </div>
 
         <!-- Kanan Header: Switcher Peran + Badge Pengguna Aktif -->
-        <div class="flex flex-wrap items-center justify-between xl:justify-end gap-2.5">
-          <nav aria-label="Pilih Peran Pengguna" class="flex items-center bg-roast p-1 rounded-2xl border border-goldWarm/20 overflow-x-auto max-w-full">
-            <button type="button" data-role="buyer" class="role-tab px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 bg-caramel text-white shadow-sm">
+        <div class="flex items-center justify-between xl:justify-end gap-2">
+          <nav aria-label="Pilih Peran Pengguna" class="flex items-center bg-roast p-1 rounded-2xl border border-goldWarm/20 overflow-x-auto no-scrollbar w-full xl:w-auto">
+            <button type="button" data-role="buyer" class="role-tab flex-1 xl:flex-none justify-center whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 bg-caramel text-white shadow-sm">
               <span>1. Pembeli</span>
               <span id="badgeBuyerOrders" class="hidden px-1.5 py-0.5 text-[10px] rounded-full bg-espresso text-goldWarm font-bold">0</span>
             </button>
-            <button type="button" data-role="seller" class="role-tab px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-warmCream/80 hover:text-goldWarm">
+            <button type="button" data-role="seller" class="role-tab flex-1 xl:flex-none justify-center whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-warmCream/80 hover:text-goldWarm">
               <span>2. Penjual / Kafe</span>
               <span id="badgeSellerOrders" class="px-1.5 py-0.5 text-[10px] rounded-full bg-caramel text-white font-bold">0</span>
             </button>
-            <button type="button" data-role="courier" class="role-tab px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-warmCream/80 hover:text-goldWarm">
+            <button type="button" data-role="courier" class="role-tab flex-1 xl:flex-none justify-center whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-warmCream/80 hover:text-goldWarm">
               <span>3. Kurir Gojek</span>
               <span id="badgeCourierOrders" class="px-1.5 py-0.5 text-[10px] rounded-full bg-sage text-white font-bold">0</span>
             </button>
           </nav>
 
-          <!-- Tombol Reset Simulasi (Selalu tampil untuk pengujian cepat) -->
+          <!-- Tombol Reset Simulasi Desktop -->
           <button id="resetSimHeaderBtn" type="button" title="Hapus keranjang & riwayat pesanan (kembalikan semua angka ke 0)"
-            class="px-3 py-1.5 rounded-xl bg-roast hover:bg-amber-900/70 text-goldWarm border border-goldWarm/35 text-xs font-bold transition flex items-center gap-1.5">
+            class="hidden xl:flex px-3 py-1.5 rounded-xl bg-roast hover:bg-amber-900/70 text-goldWarm border border-goldWarm/35 text-xs font-bold transition items-center gap-1.5 shrink-0">
             <span aria-hidden="true">↺</span>
             <span>Reset Simulasi</span>
           </button>
 
           <!-- Badge Pengguna Aktif & Logout Desktop -->
-          <div class="hidden xl:flex items-center gap-2.5 bg-roast px-3.5 py-1.5 rounded-2xl border border-goldWarm/25">
+          <div class="hidden xl:flex items-center gap-2.5 bg-roast px-3.5 py-1.5 rounded-2xl border border-goldWarm/25 shrink-0">
             <div class="text-left leading-tight">
               <span id="activeUserNameBadge" class="block text-xs font-bold text-white max-w-[140px] truncate">Pengguna</span>
               <span id="activeUserRoleBadge" class="block text-[10px] font-semibold text-goldWarm">Pembeli</span>
@@ -418,33 +436,33 @@
         </div>
       </div>
 
-      <!-- Baris Navigasi Halaman Pembeli (Terpisah & Rapi: Menu | Keranjang | Lokasi/Checkout | Status Pesanan) -->
-      <div id="buyerSubNavBar" class="pt-2.5 border-t border-goldWarm/15 flex flex-wrap items-center justify-between gap-2">
-        <nav aria-label="Navigasi Halaman Pembeli" class="flex flex-wrap items-center gap-2">
+      <!-- Baris Navigasi Halaman Pembeli -->
+      <div id="buyerSubNavBar" class="pt-2 sm:pt-2.5 border-t border-goldWarm/15 flex items-center justify-between gap-2">
+        <nav aria-label="Navigasi Halaman Pembeli" class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar w-full md:w-auto pb-0.5">
           <button type="button" data-buyer-tab="menu"
-            class="buyer-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-caramel to-caramelDark text-white shadow-md transition flex items-center gap-2">
+            class="buyer-nav-btn whitespace-nowrap shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-caramel to-caramelDark text-white shadow-md transition flex items-center gap-1.5">
             <span>Katalog Menu</span>
           </button>
 
           <button type="button" data-buyer-tab="cart"
-            class="buyer-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-2">
+            class="buyer-nav-btn whitespace-nowrap shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-1.5">
             <span>Keranjang</span>
             <span id="navCartCountBadge" class="px-2 py-0.5 rounded-full text-[11px] bg-sage text-white font-bold">0</span>
           </button>
 
           <button type="button" data-buyer-tab="checkout"
-            class="buyer-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-2">
+            class="buyer-nav-btn whitespace-nowrap shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-1.5">
             <span>Lokasi & Checkout</span>
           </button>
 
           <button type="button" data-buyer-tab="orders"
-            class="buyer-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-2">
+            class="buyer-nav-btn whitespace-nowrap shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-1.5">
             <span>Lacak Pesanan</span>
             <span id="navOrdersCountBadge" class="px-2 py-0.5 rounded-full text-[11px] bg-caramel text-white font-bold">0</span>
           </button>
         </nav>
 
-        <div class="hidden sm:flex items-center gap-2 text-xs text-warmCream/85">
+        <div class="hidden md:flex items-center gap-2 text-xs text-warmCream/85 shrink-0">
           <span>Total Keranjang:</span>
           <strong id="headerQuickTotalText" class="text-goldWarm font-bold text-sm">Rp 0</strong>
         </div>
@@ -453,38 +471,38 @@
   </header>
 
   <!-- KONTEN UTAMA -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-8">
 
     <!-- ========================================================= -->
     <!-- VIEW 1: MODE PEMBELI (HALAMAN TERPISAH & LEGA)            -->
     <!-- ========================================================= -->
-    <section id="view-buyer" class="space-y-6">
+    <section id="view-buyer" class="space-y-5 sm:space-y-6">
 
-      <!-- TAB 1A: HALAMAN KATALOG MENU FULL-WIDTH (BERSIH TANPA PETA) -->
-      <div id="buyer-page-menu" class="space-y-6">
+      <!-- TAB 1A: HALAMAN KATALOG MENU FULL-WIDTH -->
+      <div id="buyer-page-menu" class="space-y-5 sm:space-y-6">
         <!-- Hero Banner Hangat & Kontras -->
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-espresso via-roast to-[#3B261D] text-white p-6 sm:p-8 lg:p-10 shadow-xl border border-goldWarm/25">
-          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-            <div class="lg:col-span-7 space-y-4">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="inline-block px-3 py-1 rounded-full bg-sage text-white border border-white/15 text-xs font-semibold tracking-wide">
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-espresso via-roast to-[#3B261D] text-white p-5 sm:p-8 lg:p-10 shadow-xl border border-goldWarm/25">
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center">
+            <div class="lg:col-span-7 space-y-3.5 sm:space-y-4">
+              <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <span class="inline-block px-3 py-1 rounded-full bg-sage text-white border border-white/15 text-[11px] sm:text-xs font-semibold tracking-wide">
                   Cita Rasa Kopi Aceh & Kuliner Langsa
                 </span>
-                <span class="inline-block px-3 py-1 rounded-full bg-caramel/25 text-goldWarm border border-goldWarm/35 text-xs font-semibold">
+                <span class="inline-block px-3 py-1 rounded-full bg-caramel/25 text-goldWarm border border-goldWarm/35 text-[11px] sm:text-xs font-semibold">
                   100% Biji Kopi Gayo Pilihan
                 </span>
               </div>
-              <h2 class="font-serif text-2xl sm:text-4xl font-bold leading-tight text-white">
+              <h2 class="font-serif text-xl sm:text-4xl font-bold leading-tight text-white">
                 Seduhan Kopi Sanger Hangat & Sajian Lokal Langsung ke Mejaku
               </h2>
-              <p class="text-sm sm:text-base text-warmCream/90 leading-relaxed">
+              <p class="text-xs sm:text-base text-warmCream/90 leading-relaxed">
                 Pilih menu kopi & hidangan favorit Anda secara leluasa. Setelah selesai memilih, buka tab <strong>Keranjang</strong> atau <strong>Lokasi & Checkout</strong> di bagian atas untuk mengatur pengantaran GPS.
               </p>
-              <div class="pt-1 flex flex-wrap items-center gap-3">
-                <button id="toggleAboutBtn" type="button" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold bg-white/10 hover:bg-white/20 text-goldWarm border border-goldWarm/30 transition">
+              <div class="pt-1 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
+                <button id="toggleAboutBtn" type="button" class="px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold bg-white/10 hover:bg-white/20 text-goldWarm border border-goldWarm/30 transition text-center">
                   Tentang Kafe & Jam Operasional
                 </button>
-                <button type="button" data-go-buyer-tab="cart" class="btn-caramel-grad px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold inline-flex items-center gap-2">
+                <button type="button" data-go-buyer-tab="cart" class="btn-caramel-grad px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2">
                   <span>Buka Keranjang Belanja</span>
                   <span aria-hidden="true">→</span>
                 </button>
@@ -493,18 +511,18 @@
 
             <!-- Foto Sajian Lengkap Kopi & Hidangan Hangat di Meja Kafe -->
             <div class="lg:col-span-5">
-              <div class="relative rounded-3xl overflow-hidden border-2 border-[#D48C46]/60 shadow-2xl bg-roast aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3]">
+              <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-[#D48C46]/60 shadow-2xl bg-roast aspect-[16/10] lg:aspect-[4/3]">
                 <img
                   src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=85"
                   alt="Sajian lengkap kopi spesial dan hidangan hangat di meja kafe Langsa Brew & Bites"
                   class="w-full h-full object-cover object-center"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-espresso/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between gap-2">
-                  <span class="px-3 py-1 rounded-xl bg-espresso/90 border border-[#D48C46]/50 text-[11px] font-bold text-[#E6B87D] backdrop-blur-xs">
+                <div class="absolute bottom-2.5 sm:bottom-3 left-3 right-3 sm:left-3.5 sm:right-3.5 flex items-center justify-between gap-2">
+                  <span class="px-2.5 sm:px-3 py-1 rounded-xl bg-espresso/90 border border-[#D48C46]/50 text-[10px] sm:text-[11px] font-bold text-[#E6B87D] truncate">
                     Brew & Bites • Sajian Kopi & Kuliner
                   </span>
-                  <span class="px-2.5 py-1 rounded-xl bg-sage/95 text-[11px] font-bold text-white shadow-sm">
+                  <span class="px-2.5 py-1 rounded-xl bg-sage/95 text-[10px] sm:text-[11px] font-bold text-white shadow-sm shrink-0">
                     Freshly Served
                   </span>
                 </div>
@@ -514,17 +532,17 @@
         </div>
 
         <!-- Bagian Tentang Kami (Kolapsibel) -->
-        <div id="aboutSection" class="hidden card-warm rounded-3xl p-6 sm:p-8 space-y-4">
+        <div id="aboutSection" class="hidden card-warm rounded-3xl p-5 sm:p-8 space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-sand pb-4">
             <div>
-              <h3 class="font-serif text-xl sm:text-2xl font-bold text-espresso">Tentang Langsa Brew & Bites</h3>
+              <h3 class="font-serif text-lg sm:text-2xl font-bold text-espresso">Tentang Langsa Brew & Bites</h3>
               <p class="text-xs sm:text-sm text-mocha">Meracik Biji Kopi Gayo Pilihan di Jantung Kota Langsa Sejak 2021</p>
             </div>
-            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-sage text-white">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-sage text-white self-start sm:self-auto">
               Titik Kafe: 4.4683° N, 97.9683° E
             </span>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-mocha leading-relaxed">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 text-xs sm:text-sm text-mocha leading-relaxed">
             <div class="p-4 rounded-2xl bg-warmCream/70 border border-sand">
               <h4 class="font-bold text-espresso mb-1">Racikan Otentik Aceh</h4>
               <p>Menggunakan biji Arabika dan Robusta dataran tinggi Gayo yang disangrai segar setiap pekan untuk menghasilkan Kopi Sanger kental dan aroma Kopi Hitam yang mantap.</p>
@@ -540,48 +558,48 @@
           </div>
         </div>
 
-        <!-- Bagian Khusus: Menu Favorit Pelanggan (Otomatis berdasarkan Rating Tertinggi & Ulasan Terbanyak) -->
-        <div id="customerFavoritesSection" class="card-warm rounded-3xl p-5 sm:p-6 border-2 border-amber-400/70 bg-gradient-to-br from-[#FFFDF8] via-surface to-[#F7EAD8] space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-sand pb-3">
-            <div class="flex items-center gap-2.5">
+        <!-- Bagian Khusus: Menu Favorit Pelanggan -->
+        <div id="customerFavoritesSection" class="card-warm rounded-3xl p-4 sm:p-6 border-2 border-amber-400/70 bg-gradient-to-br from-[#FFFDF8] via-surface to-[#F7EAD8] space-y-3.5 sm:space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-sand pb-3">
+            <div class="flex flex-wrap items-center gap-2">
               <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-espresso text-xs font-extrabold shadow-xs">
                 <span>★</span>
                 <span>Menu Favorit Pelanggan</span>
               </span>
-              <h3 class="font-serif text-lg sm:text-xl font-bold text-espresso">Pilihan Terbaik Berdasarkan Rating & Ulasan</h3>
+              <h3 class="font-serif text-base sm:text-xl font-bold text-espresso">Pilihan Terbaik Berdasarkan Rating & Ulasan</h3>
             </div>
-            <span id="favoriteSummaryMeta" class="text-xs font-semibold text-mocha">Peringkat otomatis real-time</span>
+            <span id="favoriteSummaryMeta" class="text-[11px] sm:text-xs font-semibold text-mocha">Peringkat otomatis real-time</span>
           </div>
-          <div id="customerFavoritesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-3.5"></div>
+          <div id="customerFavoritesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5"></div>
         </div>
 
         <!-- Bar Pencarian & Filter Kategori Full-Width -->
-        <div class="card-warm rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter kategori menu">
-            <button type="button" data-category="all" class="cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition">
+        <div class="card-warm rounded-3xl p-4 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 sm:gap-4">
+          <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1 lg:pb-0" role="group" aria-label="Filter kategori menu">
+            <button type="button" data-category="all" class="cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition">
               Semua Menu (45)
             </button>
-            <button type="button" data-category="favorites" id="catFavoritesBtn" class="cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-900 border border-amber-300 hover:border-amber-500 transition flex items-center gap-1">
+            <button type="button" data-category="favorites" id="catFavoritesBtn" class="cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-900 border border-amber-300 hover:border-amber-500 transition flex items-center gap-1">
               <span class="text-amber-500">★</span>
               <span>Menu Favorit (<span id="favCountLabel">0</span>)</span>
             </button>
-            <button type="button" data-category="coffee" class="cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
+            <button type="button" data-category="coffee" class="cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
               Kopi (11)
             </button>
-            <button type="button" data-category="non-coffee" class="cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
+            <button type="button" data-category="non-coffee" class="cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
               Non-Kopi (11)
             </button>
-            <button type="button" data-category="main-dish" class="cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
+            <button type="button" data-category="main-dish" class="cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
               Makanan Berat (12)
             </button>
-            <button type="button" data-category="snack" class="cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
+            <button type="button" data-category="snack" class="cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition">
               Camilan (11)
             </button>
           </div>
 
-          <div class="relative w-full md:w-80">
+          <div class="relative w-full lg:w-80 shrink-0">
             <input id="searchMenuInput" type="search" maxlength="60" placeholder="Cari Kopi Khop, Matcha, Sate Matang, Dimsum..." aria-label="Cari menu"
-              class="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-warmCream border border-sand text-sm text-espresso placeholder:text-mocha/60 focus:outline-none focus:border-caramel" />
+              class="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-warmCream border border-sand text-base sm:text-sm text-espresso placeholder:text-mocha/60 focus:outline-none focus:border-caramel" />
             <svg class="w-4 h-4 text-mocha absolute left-3.5 top-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -590,51 +608,51 @@
         </div>
 
         <!-- Grid Kartu Menu (1 Kolom di HP, 2 Kolom Horizontal di Laptop) -->
-        <div id="menuGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
+        <div id="menuGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-4"></div>
 
         <!-- Tombol Toggle Tampilkan Selengkapnya / Tampilkan Lebih Sedikit -->
         <div id="menuToggleContainer" class="hidden pt-2 flex flex-col items-center justify-center gap-1.5">
           <button id="toggleShowAllMenusBtn" type="button"
-            class="px-6 py-3 rounded-2xl bg-espresso hover:bg-roast text-goldWarm border border-goldWarm/35 text-xs sm:text-sm font-bold shadow-md transition">
+            class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-espresso hover:bg-roast text-goldWarm border border-goldWarm/35 text-xs sm:text-sm font-bold shadow-md transition">
             Tampilkan Selengkapnya
           </button>
           <span id="menuVisibilityCountLabel" class="text-xs text-mocha font-medium"></span>
         </div>
 
         <!-- Bar Bawah Mengambang saat Keranjang Terisi -->
-        <div id="floatingCartBanner" class="hidden sticky bottom-4 z-30 rounded-2xl bg-espresso text-white p-4 shadow-2xl border border-goldWarm/30 flex flex-wrap items-center justify-between gap-3">
+        <div id="floatingCartBanner" class="hidden sticky bottom-3 sm:bottom-4 z-30 rounded-2xl bg-espresso text-white p-3.5 sm:p-4 shadow-2xl border border-goldWarm/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="flex items-center gap-3">
-            <span id="floatingCartQtyBadge" class="px-3 py-1 rounded-xl bg-sage text-white text-xs font-bold">0 Item</span>
+            <span id="floatingCartQtyBadge" class="px-3 py-1 rounded-xl bg-sage text-white text-xs font-bold shrink-0">0 Item</span>
             <div>
               <span class="block text-[11px] text-goldWarm">Subtotal Pesanan Anda</span>
-              <strong id="floatingCartTotalText" class="text-base font-bold text-white">Rp 0</strong>
+              <strong id="floatingCartTotalText" class="text-sm sm:text-base font-bold text-white">Rp 0</strong>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button type="button" data-go-buyer-tab="cart" class="px-4 py-2.5 rounded-xl bg-roast text-goldWarm border border-goldWarm/30 text-xs font-bold hover:bg-mocha transition">
+          <div class="grid grid-cols-2 sm:flex items-center gap-2">
+            <button type="button" data-go-buyer-tab="cart" class="px-3.5 sm:px-4 py-2.5 rounded-xl bg-roast text-goldWarm border border-goldWarm/30 text-xs font-bold hover:bg-mocha transition text-center">
               Lihat Keranjang
             </button>
-            <button type="button" data-go-buyer-tab="checkout" class="btn-caramel-grad px-4 py-2.5 rounded-xl text-xs font-bold">
-              Lanjut ke Lokasi & Checkout →
+            <button type="button" data-go-buyer-tab="checkout" class="btn-caramel-grad px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold text-center">
+              Checkout →
             </button>
           </div>
         </div>
       </div>
 
       <!-- TAB 1B: HALAMAN KERANJANG & VOUCHER TERPISAH -->
-      <div id="buyer-page-cart" class="hidden max-w-4xl mx-auto space-y-6">
-        <div class="card-warm rounded-3xl p-6 sm:p-8 space-y-6">
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sand pb-4">
+      <div id="buyer-page-cart" class="hidden max-w-4xl mx-auto space-y-5 sm:space-y-6">
+        <div class="card-warm rounded-3xl p-4 sm:p-8 space-y-5 sm:space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sand pb-4">
             <div>
               <span class="inline-block px-3 py-1 rounded-full bg-sage text-white text-[11px] font-bold mb-1.5">Langkah 1 dari 2</span>
-              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-espresso">Keranjang Pesanan Anda</h2>
+              <h2 class="font-serif text-xl sm:text-3xl font-bold text-espresso">Keranjang Pesanan Anda</h2>
               <p class="text-xs sm:text-sm text-mocha">Periksa jumlah item dan gunakan kode promo sebelum menentukan lokasi pengantaran.</p>
             </div>
-            <div class="flex items-center gap-2">
-              <button type="button" data-go-buyer-tab="menu" class="px-4 py-2 rounded-xl bg-warmCream border border-sand text-xs font-bold text-espresso hover:border-caramel">
-                + Tambah Menu Lain
+            <div class="flex items-center gap-2 self-start sm:self-center">
+              <button type="button" data-go-buyer-tab="menu" class="px-3.5 sm:px-4 py-2.5 rounded-xl bg-warmCream border border-sand text-xs font-bold text-espresso hover:border-caramel">
+                + Tambah Menu
               </button>
-              <button id="clearCartBtn" type="button" class="px-3.5 py-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold hover:bg-rose-600 hover:text-white transition">
+              <button id="clearCartBtn" type="button" class="px-3.5 py-2.5 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold hover:bg-rose-600 hover:text-white transition">
                 Kosongkan
               </button>
             </div>
@@ -648,30 +666,30 @@
             <label for="voucherInput" class="block text-xs sm:text-sm font-bold text-espresso">Kode Voucher Diskon</label>
             <div class="flex flex-col sm:flex-row gap-2">
               <input id="voucherInput" type="text" maxlength="20" placeholder="Masukkan kode voucher (misal: LANGSA10)"
-                class="flex-1 px-4 py-2.5 rounded-xl bg-surface border border-sand text-xs sm:text-sm uppercase font-semibold text-espresso focus:outline-none focus:border-caramel" />
-              <button id="applyVoucherBtn" type="button" class="px-5 py-2.5 rounded-xl btn-sage text-xs sm:text-sm font-bold">
+                class="flex-1 px-4 py-2.5 rounded-xl bg-surface border border-sand text-base sm:text-sm uppercase font-semibold text-espresso focus:outline-none focus:border-caramel" />
+              <button id="applyVoucherBtn" type="button" class="px-5 py-2.5 rounded-xl btn-sage text-xs sm:text-sm font-bold shrink-0">
                 Terapkan Voucher
               </button>
             </div>
-            <div class="flex flex-wrap items-center gap-2 text-xs text-mocha">
-              <span class="font-semibold">Voucher tersedia:</span>
-              <button type="button" data-voucher="LANGSA10" class="quick-voucher px-2.5 py-1 rounded-lg bg-surface border border-sand font-bold text-caramelDark hover:border-caramel">LANGSA10 (10%)</button>
-              <button type="button" data-voucher="KOPIPAGI" class="quick-voucher px-2.5 py-1 rounded-lg bg-surface border border-sand font-bold text-caramelDark hover:border-caramel">KOPIPAGI (15%)</button>
-              <button type="button" data-voucher="HEMAT20" class="quick-voucher px-2.5 py-1 rounded-lg bg-surface border border-sand font-bold text-caramelDark hover:border-caramel">HEMAT20 (20%)</button>
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs text-mocha">
+              <span class="font-semibold w-full sm:w-auto">Voucher tersedia:</span>
+              <button type="button" data-voucher="LANGSA10" class="quick-voucher px-2.5 py-1.5 rounded-lg bg-surface border border-sand font-bold text-caramelDark hover:border-caramel">LANGSA10 (10%)</button>
+              <button type="button" data-voucher="KOPIPAGI" class="quick-voucher px-2.5 py-1.5 rounded-lg bg-surface border border-sand font-bold text-caramelDark hover:border-caramel">KOPIPAGI (15%)</button>
+              <button type="button" data-voucher="HEMAT20" class="quick-voucher px-2.5 py-1.5 rounded-lg bg-surface border border-sand font-bold text-caramelDark hover:border-caramel">HEMAT20 (20%)</button>
             </div>
             <p id="voucherStatusText" class="text-xs font-semibold text-sage hidden"></p>
           </div>
 
           <!-- Ringkasan Subtotal Keranjang -->
-          <div class="p-5 rounded-2xl bg-espresso text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="p-4 sm:p-5 rounded-2xl bg-espresso text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="space-y-1">
-              <div class="flex items-center gap-4 text-xs text-warmCream/85">
+              <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-warmCream/85">
                 <span>Subtotal: <strong id="cartPageSubtotalText" class="text-white">Rp 0</strong></span>
                 <span>Diskon: <strong id="cartPageDiscountText" class="text-emerald-300">- Rp 0</strong></span>
               </div>
-              <p class="text-lg font-bold text-goldWarm">Estimasi Belanja: <span id="cartPageNetText">Rp 0</span></p>
+              <p class="text-base sm:text-lg font-bold text-goldWarm">Estimasi Belanja: <span id="cartPageNetText">Rp 0</span></p>
             </div>
-            <button type="button" data-go-buyer-tab="checkout" class="btn-caramel-grad px-6 py-3.5 rounded-2xl text-sm font-bold">
+            <button type="button" data-go-buyer-tab="checkout" class="w-full sm:w-auto btn-caramel-grad px-6 py-3.5 rounded-2xl text-sm font-bold text-center">
               Lanjut ke Lokasi & Checkout →
             </button>
           </div>
@@ -679,32 +697,32 @@
       </div>
 
       <!-- TAB 1C: HALAMAN LOKASI PETA GPS & CHECKOUT TERPISAH -->
-      <div id="buyer-page-checkout" class="hidden space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-3 card-warm rounded-3xl p-5 sm:p-6">
+      <div id="buyer-page-checkout" class="hidden space-y-5 sm:space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-warm rounded-3xl p-4 sm:p-6">
           <div>
             <span class="inline-block px-3 py-1 rounded-full bg-caramel text-white text-[11px] font-bold mb-1">Langkah 2 dari 2</span>
-            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-espresso">Lokasi Pengantaran & Checkout</h2>
+            <h2 class="font-serif text-xl sm:text-3xl font-bold text-espresso">Lokasi Pengantaran & Checkout</h2>
             <p class="text-xs sm:text-sm text-mocha">Tentukan titik GPS di Kota Langsa, pilih kurir, dan selesaikan pembayaran.</p>
           </div>
-          <button type="button" data-go-buyer-tab="cart" class="px-4 py-2.5 rounded-xl bg-warmCream border border-sand text-xs font-bold text-espresso hover:border-caramel">
+          <button type="button" data-go-buyer-tab="cart" class="self-start sm:self-center px-4 py-2.5 rounded-xl bg-warmCream border border-sand text-xs font-bold text-espresso hover:border-caramel">
             ← Kembali ke Keranjang
           </button>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
           <!-- Kolom Kiri (7 Kolom): Peta Interaktif Kota Langsa & Alamat -->
-          <div class="lg:col-span-7 card-warm rounded-3xl p-5 sm:p-6 space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <h3 class="font-serif text-lg sm:text-xl font-bold text-espresso">Peta Interaktif & Kalkulator Jarak GPS</h3>
-              <button id="useGpsBtn" type="button" class="px-3.5 py-2 rounded-xl btn-sage text-xs font-bold">
+          <div class="lg:col-span-7 card-warm rounded-3xl p-4 sm:p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 class="font-serif text-base sm:text-xl font-bold text-espresso">Peta Interaktif & Kalkulator Jarak GPS</h3>
+              <button id="useGpsBtn" type="button" class="self-start sm:self-auto px-3.5 py-2.5 rounded-xl btn-sage text-xs font-bold">
                 Gunakan GPS Perangkat
               </button>
             </div>
 
             <!-- Peta Interaktif OpenStreetMap (Leaflet) Kota Langsa -->
             <div class="relative rounded-2xl overflow-hidden border-2 border-sand map-grid-bg">
-              <div id="langsaLeafletMap" class="w-full h-64 sm:h-72" role="region" aria-label="Peta Jalan Kota Langsa"></div>
-              <div class="px-3.5 py-2 bg-espresso text-warmCream text-xs flex flex-wrap items-center justify-between gap-2">
+              <div id="langsaLeafletMap" class="w-full h-56 sm:h-72" role="region" aria-label="Peta Jalan Kota Langsa"></div>
+              <div class="px-3.5 py-2 bg-espresso text-warmCream text-[11px] sm:text-xs flex flex-wrap items-center justify-between gap-1.5">
                 <span>Klik atau geser pin hijau di peta Kota Langsa:</span>
                 <span id="coordDisplay" class="font-mono text-goldWarm font-semibold">4.4745, 97.9790</span>
               </div>
@@ -731,14 +749,14 @@
             </div>
 
             <!-- Hasil Kalkulasi Haversine & ETA -->
-            <div class="grid grid-cols-2 gap-3">
-              <div class="p-3.5 rounded-2xl bg-warmCream border border-sand">
-                <span class="block text-xs text-mocha">Jarak Tempuh (Haversine)</span>
-                <strong id="distanceKmText" class="text-base sm:text-lg font-bold text-espresso">1.37 km</strong>
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+              <div class="p-3 sm:p-3.5 rounded-2xl bg-warmCream border border-sand">
+                <span class="block text-[11px] sm:text-xs text-mocha">Jarak Tempuh (Haversine)</span>
+                <strong id="distanceKmText" class="text-sm sm:text-lg font-bold text-espresso">1.37 km</strong>
               </div>
-              <div class="p-3.5 rounded-2xl bg-warmCream border border-sand">
-                <span class="block text-xs text-mocha">Estimasi Waktu Tiba (ETA)</span>
-                <strong id="etaMinutesText" class="text-base sm:text-lg font-bold text-sage">19 menit</strong>
+              <div class="p-3 sm:p-3.5 rounded-2xl bg-warmCream border border-sand">
+                <span class="block text-[11px] sm:text-xs text-mocha">Estimasi Waktu Tiba (ETA)</span>
+                <strong id="etaMinutesText" class="text-sm sm:text-lg font-bold text-sage">19 menit</strong>
               </div>
             </div>
 
@@ -747,24 +765,24 @@
               <div>
                 <label for="buyerNameInput" class="block text-xs font-bold text-espresso mb-1">Nama Pemesan</label>
                 <input id="buyerNameInput" type="text" maxlength="50" placeholder="Misal: Cut Meutia / Rizky"
-                  class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+                  class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
               </div>
               <div>
                 <label for="buyerAddressInput" class="block text-xs font-bold text-espresso mb-1">Patokan Alamat Lengkap</label>
                 <input id="buyerAddressInput" type="text" maxlength="100" placeholder="Misal: Gedung Teknik Unsam / Jl. Cut Nyak Dhien"
-                  class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream border border-sand text-sm text-espresso focus:outline-none focus:border-caramel" />
+                  class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel" />
               </div>
             </div>
           </div>
 
           <!-- Kolom Kanan (5 Kolom): Kurir, Pembayaran & Ringkasan Akhir -->
-          <div class="lg:col-span-5 card-warm rounded-3xl p-5 sm:p-6 space-y-5">
-            <h3 class="font-serif text-lg sm:text-xl font-bold text-espresso border-b border-sand pb-3">Pengiriman & Pembayaran</h3>
+          <div class="lg:col-span-5 card-warm rounded-3xl p-4 sm:p-6 space-y-5">
+            <h3 class="font-serif text-base sm:text-xl font-bold text-espresso border-b border-sand pb-3">Pengiriman & Pembayaran</h3>
 
             <!-- Pilihan Metode Pengiriman -->
             <div class="space-y-2">
               <span class="block text-xs font-bold text-espresso">Pilih Metode Pengiriman</span>
-              <div class="grid grid-cols-3 gap-2">
+              <div class="grid grid-cols-1 xs:grid-cols-3 gap-2">
                 <button type="button" data-delivery="pickup" class="delivery-btn p-2.5 rounded-2xl border border-sand bg-warmCream text-left transition">
                   <div class="flex items-center justify-between gap-1">
                     <span class="block text-xs font-bold text-espresso">Ambil Sendiri</span>
@@ -792,7 +810,7 @@
             <!-- Pilihan Metode Pembayaran -->
             <div class="space-y-2">
               <span class="block text-xs font-bold text-espresso">Pilih Metode Pembayaran</span>
-              <div class="grid grid-cols-3 gap-2">
+              <div class="grid grid-cols-1 xs:grid-cols-3 gap-2">
                 <button type="button" data-payment="QRIS" class="payment-btn p-2.5 rounded-2xl border-2 border-espresso bg-[#F3E5D8] text-center text-xs font-bold text-espresso shadow-sm transition flex items-center justify-center gap-1">
                   <span>QRIS Instan</span>
                   <span class="sel-check inline-flex w-4 h-4 rounded-full bg-espresso text-goldWarm text-[10px] font-bold items-center justify-center shrink-0" aria-hidden="true">✓</span>
@@ -806,16 +824,16 @@
                   <span class="sel-check hidden w-4 h-4 rounded-full bg-espresso text-goldWarm text-[10px] font-bold items-center justify-center shrink-0" aria-hidden="true">✓</span>
                 </button>
               </div>
-              <div id="paymentDetailBox" class="p-3 rounded-2xl bg-warmCream border border-sand text-xs text-mocha flex items-center justify-between gap-2">
+              <div id="paymentDetailBox" class="p-3 rounded-2xl bg-warmCream border border-sand text-xs text-mocha flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span id="paymentHintText">Scan QRIS Langsa Brew & Bites (Klik untuk pratinjau QR)</span>
-                <button id="showQrisModalBtn" type="button" class="px-3 py-1.5 rounded-xl bg-espresso text-goldWarm text-[11px] font-bold shrink-0">
+                <button id="showQrisModalBtn" type="button" class="self-start sm:self-auto px-3 py-1.5 rounded-xl bg-espresso text-goldWarm text-[11px] font-bold shrink-0">
                   Lihat QRIS
                 </button>
               </div>
             </div>
 
             <!-- Rincian Biaya Akhir -->
-            <div class="p-4 rounded-2xl bg-warmCream/90 border border-sand space-y-2 text-sm">
+            <div class="p-4 rounded-2xl bg-warmCream/90 border border-sand space-y-2 text-xs sm:text-sm">
               <div class="flex justify-between text-mocha">
                 <span>Subtotal Menu (<span id="checkoutItemCountLabel">0</span> item)</span>
                 <span id="subtotalText" class="font-semibold text-espresso">Rp 0</span>
@@ -848,14 +866,14 @@
       </div>
 
       <!-- TAB 1D: HALAMAN LACAK STATUS PESANAN TERPISAH -->
-      <div id="buyer-page-orders" class="hidden max-w-4xl mx-auto space-y-6">
-        <div class="card-warm rounded-3xl p-6 sm:p-8 space-y-5">
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sand pb-4">
+      <div id="buyer-page-orders" class="hidden max-w-4xl mx-auto space-y-5 sm:space-y-6">
+        <div class="card-warm rounded-3xl p-4 sm:p-8 space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sand pb-4">
             <div>
-              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-espresso">Lacak Status Pesanan Saya</h2>
+              <h2 class="font-serif text-xl sm:text-3xl font-bold text-espresso">Lacak Status Pesanan Saya</h2>
               <p class="text-xs sm:text-sm text-mocha">Pembaruan langsung saat Kafe meracik pesanan & Kurir Gojek mengantar ke lokasi Anda.</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 self-start sm:self-center">
               <span id="buyerActiveOrderCount" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-sage text-white">0 Pesanan</span>
               <button type="button" data-go-buyer-tab="menu" class="px-4 py-2 rounded-xl bg-warmCream border border-sand text-xs font-bold text-espresso hover:border-caramel">
                 Pesan Lagi
@@ -871,35 +889,35 @@
     <!-- ========================================================= -->
     <!-- VIEW 2: MODE PENJUAL (ADMIN KAFE EXPRESSO LANGSA)         -->
     <!-- ========================================================= -->
-    <section id="view-seller" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 card-warm rounded-3xl p-6">
+    <section id="view-seller" class="hidden space-y-5 sm:space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 card-warm rounded-3xl p-4 sm:p-6">
         <div>
           <span class="inline-block px-3 py-1 rounded-full bg-espresso text-goldWarm text-xs font-semibold mb-2">Dashboard Mitra Kafe</span>
-          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-espresso">Manajemen Pesanan Masuk — Langsa Brew & Bites</h2>
-          <p class="text-sm text-mocha">Terima pesanan dari pembeli, siapkan racikan kopi & makanan, lalu panggil Kurir Gojek atau Kurir Kafe.</p>
+          <h2 class="font-serif text-xl sm:text-3xl font-bold text-espresso">Manajemen Pesanan Masuk — Langsa Brew & Bites</h2>
+          <p class="text-xs sm:text-sm text-mocha">Terima pesanan dari pembeli, siapkan racikan kopi & makanan, lalu panggil Kurir Gojek atau Kurir Kafe.</p>
         </div>
-        <button id="resetDemoDataBtn" type="button" class="px-4 py-2.5 rounded-2xl bg-warmCream border border-sand hover:border-caramel text-xs font-bold text-espresso self-start sm:self-center">
+        <button id="resetDemoDataBtn" type="button" class="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-warmCream border border-sand hover:border-caramel text-xs font-bold text-espresso self-start sm:self-center">
           Reset Simulasi (0 Pesanan)
         </button>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="card-warm rounded-3xl p-5 border-l-4 border-l-espresso">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+        <div class="card-warm rounded-3xl p-4 sm:p-5 border-l-4 border-l-espresso">
           <span class="text-xs font-semibold text-mocha">Total Pesanan Hari Ini</span>
-          <p id="sellerTotalOrdersStat" class="font-serif text-3xl font-bold text-espresso mt-1">0</p>
+          <p id="sellerTotalOrdersStat" class="font-serif text-2xl sm:text-3xl font-bold text-espresso mt-1">0</p>
         </div>
-        <div class="card-warm rounded-3xl p-5 border-l-4 border-l-caramel">
+        <div class="card-warm rounded-3xl p-4 sm:p-5 border-l-4 border-l-caramel">
           <span class="text-xs font-semibold text-mocha">Pesanan Perlu Diproses / Aktif</span>
-          <p id="sellerActiveOrdersStat" class="font-serif text-3xl font-bold text-caramelDark mt-1">0</p>
+          <p id="sellerActiveOrdersStat" class="font-serif text-2xl sm:text-3xl font-bold text-caramelDark mt-1">0</p>
         </div>
-        <div class="card-warm rounded-3xl p-5 border-l-4 border-l-sage">
+        <div class="card-warm rounded-3xl p-4 sm:p-5 border-l-4 border-l-sage">
           <span class="text-xs font-semibold text-mocha">Estimasi Omzet Kafe</span>
-          <p id="sellerRevenueStat" class="font-serif text-3xl font-bold text-sage mt-1">Rp 0</p>
+          <p id="sellerRevenueStat" class="font-serif text-2xl sm:text-3xl font-bold text-sage mt-1">Rp 0</p>
         </div>
       </div>
 
       <div class="space-y-4">
-        <h3 class="font-serif text-xl font-bold text-espresso">Antrean Pesanan Real-Time</h3>
+        <h3 class="font-serif text-lg sm:text-xl font-bold text-espresso">Antrean Pesanan Real-Time</h3>
         <div id="sellerOrdersContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
     </section>
@@ -907,16 +925,16 @@
     <!-- ========================================================= -->
     <!-- VIEW 3: MODE KURIR GOJEK                                  -->
     <!-- ========================================================= -->
-    <section id="view-courier" class="hidden space-y-6">
-      <div class="card-warm rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-l-8 border-l-sage">
+    <section id="view-courier" class="hidden space-y-5 sm:space-y-6">
+      <div class="card-warm rounded-3xl p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-l-8 border-l-sage">
         <div>
           <span class="inline-block px-3 py-1 rounded-full bg-sage text-white text-xs font-bold mb-2">Mitra Driver Gojek • Area Kota Langsa</span>
-          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-espresso">Radar Pengantaran Pesanan</h2>
-          <p class="text-sm text-mocha">Ambil order siap antar dari Langsa Brew & Bites (Jl. Ahmad Yani) dan perbarui progres perjalanan secara langsung.</p>
+          <h2 class="font-serif text-xl sm:text-3xl font-bold text-espresso">Radar Pengantaran Pesanan</h2>
+          <p class="text-xs sm:text-sm text-mocha">Ambil order siap antar dari Langsa Brew & Bites (Jl. Ahmad Yani) dan perbarui progres perjalanan secara langsung.</p>
         </div>
-        <div class="p-3.5 rounded-2xl bg-warmCream border border-sand text-right">
+        <div class="p-3 sm:p-3.5 rounded-2xl bg-warmCream border border-sand text-left sm:text-right">
           <span class="block text-xs text-mocha">Status Driver</span>
-          <strong class="text-sm font-bold text-sage">Aktif • Siap Terima Order</strong>
+          <strong class="text-xs sm:text-sm font-bold text-sage">Aktif • Siap Terima Order</strong>
         </div>
       </div>
 
@@ -926,12 +944,12 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="mt-12 bg-espresso text-warmCream/85 py-6 px-4 text-center text-xs border-t border-goldWarm/20 space-y-2">
+  <footer class="mt-10 sm:mt-12 bg-espresso text-warmCream/85 py-6 px-4 pb-safe text-center text-xs border-t border-goldWarm/20 space-y-2">
     <p class="font-semibold text-goldWarm">Langsa Brew & Bites — Platform Kopi & Kuliner Lokal Kota Langsa, Aceh</p>
     <p>Jl. Ahmad Yani, Kota Langsa • Arsitektur Aman (Anti-XSS DOM API, Strict CSP, Zero Hardcoded Secrets)</p>
     <div class="pt-1">
       <button id="resetSimFooterBtn" type="button"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-roast hover:bg-amber-900/70 text-goldWarm border border-goldWarm/30 text-[11px] font-semibold transition">
+        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-roast hover:bg-amber-900/70 text-goldWarm border border-goldWarm/30 text-[11px] font-semibold transition">
         <span aria-hidden="true">↺</span>
         <span>Reset Simulasi (Hapus Riwayat & Keranjang ke 0)</span>
       </button>
@@ -941,14 +959,14 @@
 
   <!-- MODAL QRIS -->
   <div id="qrisModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-espresso/70 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="bg-surface border border-sand rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center">
-      <div class="flex items-center justify-between">
-        <h3 id="modalTitle" class="font-serif text-lg font-bold text-espresso">Pembayaran QRIS Langsa Brew & Bites</h3>
-        <button id="closeQrisModalBtn" type="button" class="w-8 h-8 rounded-full bg-warmCream text-espresso font-bold hover:bg-sand">✕</button>
+    <div class="bg-surface border border-sand rounded-3xl max-w-sm w-full p-5 sm:p-6 shadow-2xl space-y-4 text-center">
+      <div class="flex items-center justify-between gap-2">
+        <h3 id="modalTitle" class="font-serif text-base sm:text-lg font-bold text-espresso text-left">Pembayaran QRIS Langsa Brew & Bites</h3>
+        <button id="closeQrisModalBtn" type="button" class="w-8 h-8 rounded-full bg-warmCream text-espresso font-bold hover:bg-sand shrink-0">✕</button>
       </div>
       <p class="text-xs text-mocha">Pindai kode QRIS simulasi di bawah ini menggunakan aplikasi mobile banking atau e-wallet Anda.</p>
 
-      <div class="mx-auto w-48 h-48 p-3 rounded-2xl bg-white border-2 border-espresso flex items-center justify-center">
+      <div class="mx-auto w-44 h-44 sm:w-48 sm:h-48 p-3 rounded-2xl bg-white border-2 border-espresso flex items-center justify-center">
         <svg viewBox="0 0 120 120" class="w-full h-full" aria-label="Kode QRIS Simulasi">
           <rect x="6" y="6" width="32" height="32" fill="none" stroke="#231712" stroke-width="6" />
           <rect x="14" y="14" width="16" height="16" fill="#231712" />
@@ -979,12 +997,12 @@
   </div>
 
   <!-- MODAL DETAIL MENU & ULASAN RATING BINTANG (1-5) -->
-  <div id="reviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-espresso/75 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
-    <div class="bg-surface border border-sand rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl space-y-5">
+  <div id="reviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-espresso/75 backdrop-blur-sm p-3.5 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <div class="bg-surface border border-sand rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 shadow-2xl space-y-4 sm:space-y-5">
       <div class="flex items-start justify-between gap-3 border-b border-sand pb-3">
         <div>
           <div class="flex items-center gap-2 flex-wrap">
-            <h3 id="reviewModalTitle" class="font-serif text-xl font-bold text-espresso">Detail & Ulasan Menu</h3>
+            <h3 id="reviewModalTitle" class="font-serif text-lg sm:text-xl font-bold text-espresso">Detail & Ulasan Menu</h3>
             <span id="reviewModalFavBadge" class="hidden px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-gradient-to-r from-amber-400 to-yellow-500 text-espresso shadow-xs">★ Menu Favorit</span>
           </div>
           <p id="reviewModalSubtitle" class="text-xs text-mocha mt-1">Bagikan pengalaman rasa kopi & hidangan Langsa Brew & Bites</p>
@@ -993,31 +1011,31 @@
       </div>
 
       <!-- Ringkasan Rating Menu -->
-      <div class="p-4 rounded-2xl bg-warmCream/90 border border-sand flex items-center justify-between gap-4">
+      <div class="p-3.5 sm:p-4 rounded-2xl bg-warmCream/90 border border-sand flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-          <div class="w-14 h-14 rounded-2xl bg-espresso text-amber-400 flex flex-col items-center justify-center shrink-0">
-            <span id="reviewModalAvgScore" class="text-lg font-extrabold leading-none">0.0</span>
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-espresso text-amber-400 flex flex-col items-center justify-center shrink-0">
+            <span id="reviewModalAvgScore" class="text-base sm:text-lg font-extrabold leading-none">0.0</span>
             <span class="text-[10px] text-goldWarm mt-0.5">dari 5.0</span>
           </div>
           <div>
-            <div id="reviewModalStarsDisplay" class="flex items-center gap-0.5 text-amber-500 text-base">☆☆☆☆☆</div>
-            <p id="reviewModalCountText" class="text-xs text-mocha font-semibold mt-0.5">Belum ada ulasan</p>
+            <div id="reviewModalStarsDisplay" class="flex items-center gap-0.5 text-amber-500 text-sm sm:text-base">☆☆☆☆☆</div>
+            <p id="reviewModalCountText" class="text-[11px] sm:text-xs text-mocha font-semibold mt-0.5">Belum ada ulasan</p>
           </div>
         </div>
-        <button id="reviewModalAddCartBtn" type="button" class="btn-caramel-grad px-3.5 py-2 rounded-xl text-xs font-bold shrink-0">
+        <button id="reviewModalAddCartBtn" type="button" class="btn-caramel-grad px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold shrink-0">
           + Keranjang
         </button>
       </div>
 
-      <!-- Form Tulis Ulasan (Hanya aktif jika pembeli sudah pernah membeli menu ini) -->
+      <!-- Form Tulis Ulasan -->
       <div id="reviewFormWrapper" class="space-y-3">
         <form id="submitReviewForm" class="p-4 rounded-2xl bg-surface border-2 border-caramel/40 space-y-3" novalidate>
-          <div class="flex items-center justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-1">
             <span class="text-xs font-bold text-espresso">Berikan Rating Bintang Anda (1–5)</span>
             <span id="selectedStarLabel" class="text-xs font-bold text-amber-700">5 Bintang (Sangat Puas)</span>
           </div>
 
-          <div id="starPickerGroup" class="flex items-center gap-2" role="radiogroup" aria-label="Pilih rating bintang">
+          <div id="starPickerGroup" class="flex items-center gap-1.5 sm:gap-2" role="radiogroup" aria-label="Pilih rating bintang">
             <button type="button" data-star="1" class="star-pick-btn w-10 h-10 rounded-xl border border-sand bg-warmCream text-xl text-amber-400 hover:scale-105 transition" aria-label="1 Bintang">★</button>
             <button type="button" data-star="2" class="star-pick-btn w-10 h-10 rounded-xl border border-sand bg-warmCream text-xl text-amber-400 hover:scale-105 transition" aria-label="2 Bintang">★</button>
             <button type="button" data-star="3" class="star-pick-btn w-10 h-10 rounded-xl border border-sand bg-warmCream text-xl text-amber-400 hover:scale-105 transition" aria-label="3 Bintang">★</button>
@@ -1029,7 +1047,7 @@
             <label for="reviewCommentInput" class="block text-xs font-bold text-espresso mb-1">Komentar Ulasan</label>
             <textarea id="reviewCommentInput" rows="3" maxlength="240"
               placeholder="Ceritakan cita rasa, aroma kopi, porsi, atau kecepatan penyajian..."
-              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream border border-sand text-xs sm:text-sm text-espresso focus:outline-none focus:border-caramel"></textarea>
+              class="w-full px-3.5 py-2.5 rounded-2xl bg-warmCream border border-sand text-base sm:text-sm text-espresso focus:outline-none focus:border-caramel"></textarea>
           </div>
 
           <button type="submit" class="w-full btn-sage py-3 rounded-2xl text-xs sm:text-sm font-bold">
@@ -1052,7 +1070,7 @@
   </div>
 
   <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-xs sm:max-w-sm pointer-events-none"></div>
+  <div id="toastContainer" class="fixed bottom-4 left-3.5 right-3.5 sm:left-auto sm:bottom-5 sm:right-5 z-50 flex flex-col gap-2 sm:max-w-sm pointer-events-none"></div>
 
   <!-- SCRIPT LOGIKA APLIKASI -->
   <script nonce="expresso2026">
@@ -1103,9 +1121,6 @@
     });
 
     const MENU_ITEMS = Object.freeze([
-      // =========================================================
-      // 1. KATEGORI KOPI (10 ITEM)
-      // =========================================================
       {
         id: 'kopi-sanger-espresso',
         name: 'Kopi Sanger Espresso',
@@ -1206,10 +1221,6 @@
         badge: 'Cokelat Kopi',
         imageUrl: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=600&q=80'
       },
-
-      // =========================================================
-      // 2. KATEGORI NON-KOPI (10 ITEM)
-      // =========================================================
       {
         id: 'teh-tarik-aceh',
         name: 'Teh Tarik Aceh',
@@ -1310,10 +1321,6 @@
         badge: 'Praktis',
         imageUrl: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80'
       },
-
-      // =========================================================
-      // 3. KATEGORI MAKANAN BERAT (10 ITEM)
-      // =========================================================
       {
         id: 'mie-aceh-goreng',
         name: 'Mie Aceh Goreng',
@@ -1414,10 +1421,6 @@
         badge: 'Khas Aceh',
         imageUrl: 'https://images.unsplash.com/photo-1529563021893-cc83c992d75d?auto=format&fit=crop&w=600&q=80'
       },
-
-      // =========================================================
-      // 4. KATEGORI CAMILAN (10 ITEM)
-      // =========================================================
       {
         id: 'roti-cane-cokelat-keju',
         name: 'Roti Cane Cokelat Keju',
@@ -1577,7 +1580,7 @@
       loginRole: 'buyer',
       registerRole: 'buyer',
       role: 'buyer',
-      buyerTab: 'menu', // 'menu' | 'cart' | 'checkout' | 'orders'
+      buyerTab: 'menu',
       category: 'all',
       searchQuery: '',
       cart: [],
@@ -1628,9 +1631,6 @@
       }
     }
 
-    /**
-     * NAVIGASI SUB-HALAMAN PEMBELI (Menu | Keranjang | Lokasi/Checkout | Lacak Pesanan)
-     */
     function switchBuyerPage(tabName) {
       state.buyerTab = tabName;
 
@@ -1645,8 +1645,8 @@
       document.querySelectorAll('.buyer-nav-btn').forEach((btn) => {
         const isActive = btn.getAttribute('data-buyer-tab') === tabName;
         btn.className = isActive
-          ? 'buyer-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-caramel to-caramelDark text-white shadow-md transition flex items-center gap-2'
-          : 'buyer-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-2';
+          ? 'buyer-nav-btn whitespace-nowrap shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-caramel to-caramelDark text-white shadow-md transition flex items-center gap-1.5'
+          : 'buyer-nav-btn whitespace-nowrap shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-roast text-goldWarm border border-goldWarm/25 hover:border-goldWarm transition flex items-center gap-1.5';
       });
 
       if (tabName === 'checkout' && leafletMap) {
@@ -1657,17 +1657,14 @@
               [CAFE_COORDS.lat, CAFE_COORDS.lng],
               [state.buyerLocation.lat, state.buyerLocation.lng]
             ]);
-            leafletMap.fitBounds(bounds, { padding: [42, 42], maxZoom: 15 });
+            leafletMap.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
           }
-        }, 80);
+        }, 100);
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /**
-     * AUTENTIKASI (LOGIN, REGISTRASI, DEMO & LOGOUT)
-     */
     function showAuthAlert(message, isError = true) {
       const alertBox = document.getElementById('authInlineAlert');
       if (!alertBox) return;
@@ -1701,12 +1698,12 @@
       tabRegisterBtn.setAttribute('aria-selected', String(!isLogin));
 
       tabLoginBtn.className = isLogin
-        ? 'py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition'
-        : 'py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-mocha hover:text-espresso transition';
+        ? 'py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition'
+        : 'py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-mocha hover:text-espresso transition';
 
       tabRegisterBtn.className = !isLogin
-        ? 'py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition'
-        : 'py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-mocha hover:text-espresso transition';
+        ? 'py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition'
+        : 'py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-mocha hover:text-espresso transition';
     }
 
     function setSelectedLoginRole(role) {
@@ -1889,9 +1886,6 @@
       showToast('Anda telah keluar dari sesi aktif.', 'info');
     }
 
-    /**
-     * RUMUS HAVERSINE & KALKULASI ETA
-     */
     function calculateHaversineKm(lat1, lon1, lat2, lon2) {
       const toRad = (deg) => (deg * Math.PI) / 180;
       const R = 6371;
@@ -1963,7 +1957,7 @@
       return [];
     }
 
-const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
+    const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       { id: 'INIT-REV-1', menuId: 'kopi-sanger-spesial-ahmad-yani', orderId: null, reviewerName: 'Teuku Faisal', rating: 5, comment: 'Sanger khas Jl. Ahmad Yani paling pas kental dan manisnya.', createdAt: 'Hari ini • 08.15 WIB' },
       { id: 'INIT-REV-2', menuId: 'kopi-sanger-spesial-ahmad-yani', orderId: null, reviewerName: 'Rina Maulida', rating: 5, comment: 'Aroma kopinya kuat dan tetap creamy.', createdAt: 'Hari ini • 09.20 WIB' },
       { id: 'INIT-REV-3', menuId: 'es-timun-serut-segar-langsa', orderId: null, reviewerName: 'Nadia Safitri', rating: 5, comment: 'Sangat menyegarkan di siang hari Kota Langsa, asam jeruk nipisnya pas.', createdAt: 'Hari ini • 11.05 WIB' },
@@ -2002,7 +1996,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
         const savedOrders = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDERS) || '[]');
         if (Array.isArray(savedOrders)) {
-          // Pastikan data dummy lama (EXP-1042, EXP-1043) tidak ikut terbawa
           state.orders = savedOrders.filter((o) => o && o.id !== 'EXP-1042' && o.id !== 'EXP-1043');
         } else {
           state.orders = [];
@@ -2049,9 +2042,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgMarkup);
     }
 
-    /**
-     * SISTEM ULASAN, RATING BINTANG (1-5) & PENENTU "MENU FAVORIT" OTOMATIS
-     */
     function getMenuRatingStats(menuId) {
       const list = state.reviews.filter((r) => r.menuId === menuId);
       const count = list.length;
@@ -2066,7 +2056,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
     function computeFavoriteMenuIds() {
       const ratedMenus = MENU_ITEMS.map((item) => {
         const stats = getMenuRatingStats(item.id);
-        // Skor komposit: prioritas rating rata-rata tinggi & jumlah ulasan terbanyak
         const weightedScore = stats.count > 0 ? (stats.avg * 100) + (stats.count * 12) : 0;
         return {
           id: item.id,
@@ -2082,7 +2071,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         return b.weightedScore - a.weightedScore;
       });
 
-      // Ambil maksimal 6 menu teratas dengan rating tertinggi & ulasan terbanyak
       const topFavorites = ratedMenus.slice(0, 6);
       return new Set(topFavorites.map((m) => m.id));
     }
@@ -2209,7 +2197,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       if (favoriteSet.size === 0) {
         if (meta) meta.textContent = 'Belum ada ulasan — beri rating setelah pesanan selesai untuk memunculkan Menu Favorit!';
         const placeholder = document.createElement('div');
-        placeholder.className = 'md:col-span-3 p-4 rounded-2xl bg-warmCream/70 border border-dashed border-amber-400/70 text-xs text-mocha flex flex-wrap items-center justify-between gap-2';
+        placeholder.className = 'md:col-span-2 lg:col-span-3 p-4 rounded-2xl bg-warmCream/70 border border-dashed border-amber-400/70 text-xs text-mocha flex flex-wrap items-center justify-between gap-2';
         placeholder.textContent = 'Peringkat "★ Menu Favorit" otomatis muncul di sini secara real-time segera setelah pembeli memberikan ulasan bintang (4.0–5.0) pada menu yang dibeli.';
         grid.appendChild(placeholder);
         return;
@@ -2254,7 +2242,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         nameEl.textContent = item.name;
 
         const ratingLine = document.createElement('p');
-        ratingLine.className = 'text-[11px] font-bold text-amber-700 mt-0.5';
+        ratingLine.className = 'text-[11px] font-bold text-amber-700 mt-0.5 truncate';
         ratingLine.textContent = '★ ' + stats.avg.toFixed(1) + ' (' + stats.count + ' ulasan) • ' + formatIDR(item.price);
 
         info.appendChild(rankTag);
@@ -2326,12 +2314,14 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
         const card = document.createElement('article');
         card.className = isFavorite
-          ? 'card-warm rounded-2xl p-3.5 sm:p-4 flex items-center gap-3.5 sm:gap-4 group border-2 border-amber-400/85 bg-gradient-to-br from-[#FFFDF7] to-surface'
-          : 'card-warm rounded-2xl p-3.5 sm:p-4 flex items-center gap-3.5 sm:gap-4 group';
+          ? 'card-warm rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 group border-2 border-amber-400/85 bg-gradient-to-br from-[#FFFDF7] to-surface'
+          : 'card-warm rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 group';
 
-        // 1. Kiri: Foto Persegi Kecil (GoFood / GrabFood Style)
+        const topRowMobile = document.createElement('div');
+        topRowMobile.className = 'flex items-start sm:items-center gap-3 sm:gap-4 flex-1 min-w-0';
+
         const mediaWrapper = document.createElement('div');
-        mediaWrapper.className = 'relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-woodLight overflow-hidden shrink-0 border border-sand/80 shadow-xs cursor-pointer';
+        mediaWrapper.className = 'relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl bg-woodLight overflow-hidden shrink-0 border border-sand/80 shadow-xs cursor-pointer';
         mediaWrapper.addEventListener('click', () => openReviewModal(item.id));
 
         const imgEl = document.createElement('img');
@@ -2344,13 +2334,12 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         imgEl.setAttribute('onerror', "this.onerror=null;this.src='" + fallbackUri + "';");
 
         const badgeSpan = document.createElement('span');
-        badgeSpan.className = 'absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-espresso/90 text-goldWarm shadow-sm';
+        badgeSpan.className = 'absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-espresso/90 text-goldWarm shadow-sm';
         badgeSpan.textContent = item.badge;
 
         mediaWrapper.appendChild(imgEl);
         mediaWrapper.appendChild(badgeSpan);
 
-        // 2. Tengah: Nama Menu, Badge Emas Menu Favorit, Rating Real-Time & Harga
         const contentCol = document.createElement('div');
         contentCol.className = 'flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5';
 
@@ -2360,7 +2349,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         titleRow.className = 'flex items-center gap-1.5 flex-wrap';
 
         const title = document.createElement('h4');
-        title.className = 'font-serif text-base sm:text-lg font-bold text-espresso leading-snug cursor-pointer hover:text-caramelDark';
+        title.className = 'font-serif text-sm sm:text-lg font-bold text-espresso leading-snug cursor-pointer hover:text-caramelDark';
         title.textContent = item.name;
         title.addEventListener('click', () => openReviewModal(item.id));
 
@@ -2368,7 +2357,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
         if (isFavorite) {
           const favBadge = document.createElement('span');
-          favBadge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-gradient-to-r from-amber-400 to-yellow-500 text-espresso shadow-xs border border-amber-600/30';
+          favBadge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-gradient-to-r from-amber-400 to-yellow-500 text-espresso shadow-xs border border-amber-600/30';
           favBadge.textContent = '★ Menu Favorit';
           titleRow.appendChild(favBadge);
         }
@@ -2379,23 +2368,22 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         titleRow.appendChild(catTag);
 
         const desc = document.createElement('p');
-        desc.className = 'text-xs text-mocha leading-relaxed mt-1 line-clamp-2';
+        desc.className = 'text-[11px] sm:text-xs text-mocha leading-relaxed mt-1 line-clamp-2';
         desc.textContent = item.desc;
 
         headerInfo.appendChild(titleRow);
         headerInfo.appendChild(desc);
 
-        // Baris Rating Bintang Real-Time + Harga Kontras Tinggi
         const metaRow = document.createElement('div');
-        metaRow.className = 'mt-2 flex flex-wrap items-center gap-2';
+        metaRow.className = 'mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2';
 
         const priceEl = document.createElement('span');
-        priceEl.className = 'inline-block text-sm sm:text-base font-extrabold tracking-tight text-[#1E5631] bg-[#1E5631]/12 px-2.5 py-0.5 rounded-lg border border-[#1E5631]/30';
+        priceEl.className = 'inline-block text-xs sm:text-base font-extrabold tracking-tight text-[#1E5631] bg-[#1E5631]/12 px-2.5 py-0.5 rounded-lg border border-[#1E5631]/30';
         priceEl.textContent = formatIDR(item.price);
 
         const ratingBtn = document.createElement('button');
         ratingBtn.type = 'button';
-        ratingBtn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-300/80 text-[11px] font-bold text-amber-900 transition';
+        ratingBtn.className = 'inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-300/80 text-[10px] sm:text-[11px] font-bold text-amber-900 transition';
         ratingBtn.title = 'Klik untuk melihat detail & ulasan pembeli';
         ratingBtn.textContent =
           stats.count > 0
@@ -2409,27 +2397,28 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         contentCol.appendChild(headerInfo);
         contentCol.appendChild(metaRow);
 
-        // 3. Kanan: Tombol Tambah & Detail Ulasan
+        topRowMobile.appendChild(mediaWrapper);
+        topRowMobile.appendChild(contentCol);
+
         const actionCol = document.createElement('div');
-        actionCol.className = 'shrink-0 flex flex-col items-stretch justify-center gap-1.5 self-center pl-1';
+        actionCol.className = 'shrink-0 grid grid-cols-2 sm:flex sm:flex-col items-stretch justify-center gap-1.5 sm:self-center pt-2 sm:pt-0 border-t sm:border-t-0 border-sand/70 sm:pl-1';
 
         const addBtn = document.createElement('button');
         addBtn.type = 'button';
-        addBtn.className = 'btn-caramel-grad px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap';
+        addBtn.className = 'btn-caramel-grad px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap text-center';
         addBtn.textContent = '+ Tambah';
         addBtn.addEventListener('click', () => addToCart(item.id));
 
         const detailBtn = document.createElement('button');
         detailBtn.type = 'button';
-        detailBtn.className = 'px-3 py-1.5 rounded-xl bg-warmCream hover:bg-woodLight border border-sand text-[11px] font-semibold text-espresso whitespace-nowrap transition';
+        detailBtn.className = 'px-3 py-2 sm:py-1.5 rounded-xl bg-warmCream hover:bg-woodLight border border-sand text-[11px] font-semibold text-espresso whitespace-nowrap transition text-center';
         detailBtn.textContent = 'Detail & Ulasan';
         detailBtn.addEventListener('click', () => openReviewModal(item.id));
 
         actionCol.appendChild(addBtn);
         actionCol.appendChild(detailBtn);
 
-        card.appendChild(mediaWrapper);
-        card.appendChild(contentCol);
+        card.appendChild(topRowMobile);
         card.appendChild(actionCol);
         grid.appendChild(card);
       });
@@ -2526,9 +2515,9 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
       if (state.cart.length === 0) {
         const empty = document.createElement('div');
-        empty.className = 'p-8 rounded-2xl bg-warmCream/70 border border-dashed border-sand text-center space-y-3';
+        empty.className = 'p-6 sm:p-8 rounded-2xl bg-warmCream/70 border border-dashed border-sand text-center space-y-3';
         const p = document.createElement('p');
-        p.className = 'text-sm text-mocha';
+        p.className = 'text-xs sm:text-sm text-mocha';
         p.textContent = 'Keranjang Anda masih kosong. Silakan pilih kopi atau hidangan lokal di Katalog Menu.';
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -2541,24 +2530,24 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       } else {
         state.cart.forEach((item) => {
           const row = document.createElement('div');
-          row.className = 'flex items-center justify-between gap-3 p-4 rounded-2xl bg-warmCream/80 border border-sand';
+          row.className = 'flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-warmCream/80 border border-sand';
 
           const info = document.createElement('div');
           info.className = 'min-w-0 flex-1';
 
           const nameEl = document.createElement('p');
-          nameEl.className = 'text-sm sm:text-base font-bold text-espresso truncate';
+          nameEl.className = 'text-xs sm:text-base font-bold text-espresso truncate';
           nameEl.textContent = item.name;
 
           const subEl = document.createElement('p');
-          subEl.className = 'text-xs text-mocha';
+          subEl.className = 'text-[11px] sm:text-xs text-mocha';
           subEl.textContent = formatIDR(item.price) + ' × ' + item.qty + ' = ' + formatIDR(item.price * item.qty);
 
           info.appendChild(nameEl);
           info.appendChild(subEl);
 
           const controls = document.createElement('div');
-          controls.className = 'flex items-center gap-2';
+          controls.className = 'flex items-center gap-1.5 sm:gap-2 shrink-0';
 
           const minusBtn = document.createElement('button');
           minusBtn.type = 'button';
@@ -2567,7 +2556,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
           minusBtn.addEventListener('click', () => updateCartQty(item.id, -1));
 
           const qtyText = document.createElement('span');
-          qtyText.className = 'w-7 text-center text-sm font-bold text-espresso';
+          qtyText.className = 'w-6 sm:w-7 text-center text-xs sm:text-sm font-bold text-espresso';
           qtyText.textContent = String(item.qty);
 
           const plusBtn = document.createElement('button');
@@ -2586,12 +2575,10 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       }
 
-      // Ringkasan di Halaman Keranjang
       document.getElementById('cartPageSubtotalText').textContent = formatIDR(totals.subtotal);
       document.getElementById('cartPageDiscountText').textContent = '- ' + formatIDR(totals.discount);
       document.getElementById('cartPageNetText').textContent = formatIDR(Math.max(0, totals.subtotal - totals.discount));
 
-      // Ringkasan di Halaman Lokasi & Checkout
       document.getElementById('distanceKmText').textContent = totals.distanceKm.toFixed(2) + ' km';
       document.getElementById('etaMinutesText').textContent = totals.etaMinutes + ' menit';
       document.getElementById('gojekRateLabel').textContent = formatIDR(calculateShippingCost(totals.distanceKm, 'gojek'));
@@ -2710,7 +2697,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
             [CAFE_COORDS.lat, CAFE_COORDS.lng],
             newLatLng
           ]);
-          leafletMap.fitBounds(bounds, { padding: [42, 42], maxZoom: 15 });
+          leafletMap.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
         }
       }
 
@@ -2837,14 +2824,12 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         return;
       }
 
-
-
       state.orders.forEach((order) => {
         const card = document.createElement('div');
         card.className = 'p-4 sm:p-5 rounded-2xl bg-warmCream/70 border border-sand space-y-3';
 
         const top = document.createElement('div');
-        top.className = 'flex flex-wrap items-center justify-between gap-2';
+        top.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-2';
 
         const idWrap = document.createElement('div');
         const idText = document.createElement('strong');
@@ -2860,7 +2845,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
         const meta = getOrderStatusMeta(order.status);
         const statusBadge = document.createElement('span');
-        statusBadge.className = 'px-3 py-1 rounded-full text-xs font-bold ' + meta.badgeClass;
+        statusBadge.className = 'self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold ' + meta.badgeClass;
         statusBadge.textContent = meta.label;
 
         top.appendChild(idWrap);
@@ -2875,10 +2860,10 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         );
 
         const bottom = document.createElement('div');
-        bottom.className = 'flex items-center justify-between text-xs pt-1';
+        bottom.className = 'flex flex-wrap items-center justify-between gap-2 text-xs pt-1';
 
         const addrSpan = document.createElement('span');
-        addrSpan.className = 'text-mocha truncate max-w-[65%]';
+        addrSpan.className = 'text-mocha truncate max-w-full sm:max-w-[65%]';
         addrSpan.textContent = 'Tujuan: ' + order.address;
 
         const totalSpan = document.createElement('strong');
@@ -2924,14 +2909,14 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
       state.orders.forEach((order) => {
         const card = document.createElement('article');
-        card.className = 'card-warm rounded-3xl p-5 flex flex-col justify-between gap-4';
+        card.className = 'card-warm rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-4';
 
         const header = document.createElement('div');
         header.className = 'flex items-start justify-between gap-2';
 
         const left = document.createElement('div');
         const title = document.createElement('h4');
-        title.className = 'font-bold text-base text-espresso';
+        title.className = 'font-bold text-sm sm:text-base text-espresso';
         title.textContent = order.id + ' — ' + order.buyerName;
 
         const info = document.createElement('p');
@@ -2961,12 +2946,12 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         totalEl.textContent = 'Total: ' + formatIDR(order.total);
 
         const actionWrap = document.createElement('div');
-        actionWrap.className = 'flex flex-wrap gap-2';
+        actionWrap.className = 'flex flex-wrap gap-2 w-full sm:w-auto';
 
         if (order.status === 'PENDING_CAFE') {
           const acceptBtn = document.createElement('button');
           acceptBtn.type = 'button';
-          acceptBtn.className = 'btn-caramel-grad px-4 py-2 rounded-xl text-xs font-bold';
+          acceptBtn.className = 'w-full sm:w-auto btn-caramel-grad px-4 py-2 rounded-xl text-xs font-bold';
           acceptBtn.textContent = 'Terima & Proses Pesanan';
           acceptBtn.addEventListener('click', () =>
             advanceOrderStatus(order.id, 'PREPARING_CAFE', 'Pesanan ' + order.id + ' diterima dapur kafe.')
@@ -2976,7 +2961,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
           if (order.deliveryMethod === 'pickup') {
             const doneBtn = document.createElement('button');
             doneBtn.type = 'button';
-            doneBtn.className = 'btn-sage px-4 py-2 rounded-xl text-xs font-bold';
+            doneBtn.className = 'w-full sm:w-auto btn-sage px-4 py-2 rounded-xl text-xs font-bold';
             doneBtn.textContent = 'Selesai (Diambil Pembeli)';
             doneBtn.addEventListener('click', () =>
               advanceOrderStatus(order.id, 'COMPLETED', 'Pesanan ' + order.id + ' selesai diambil pembeli.')
@@ -2985,7 +2970,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
           } else {
             const callDriverBtn = document.createElement('button');
             callDriverBtn.type = 'button';
-            callDriverBtn.className = 'btn-sage px-4 py-2 rounded-xl text-xs font-bold';
+            callDriverBtn.className = 'w-full sm:w-auto btn-sage px-4 py-2 rounded-xl text-xs font-bold';
             callDriverBtn.textContent = 'Panggil Driver Gojek';
             callDriverBtn.addEventListener('click', () =>
               advanceOrderStatus(order.id, 'READY_FOR_COURIER', 'Driver Gojek dipanggil untuk pesanan ' + order.id + '!')
@@ -3029,14 +3014,14 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
       deliveryOrders.forEach((order) => {
         const card = document.createElement('article');
-        card.className = 'card-warm rounded-3xl p-5 flex flex-col justify-between gap-4';
+        card.className = 'card-warm rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-4';
 
         const top = document.createElement('div');
         top.className = 'flex items-start justify-between gap-2';
 
         const titleBox = document.createElement('div');
         const idTitle = document.createElement('h4');
-        idTitle.className = 'font-bold text-base text-espresso';
+        idTitle.className = 'font-bold text-sm sm:text-base text-espresso';
         idTitle.textContent = 'Order ' + order.id + ' • ' + order.buyerName;
 
         const routeInfo = document.createElement('p');
@@ -3107,7 +3092,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         } else if (order.status === 'READY_FOR_COURIER') {
           const btn1 = document.createElement('button');
           btn1.type = 'button';
-          btn1.className = 'px-4 py-2 rounded-xl bg-espresso text-goldWarm text-xs font-bold hover:bg-roast';
+          btn1.className = 'w-full sm:w-auto px-4 py-2 rounded-xl bg-espresso text-goldWarm text-xs font-bold hover:bg-roast';
           btn1.textContent = '1. Menuju Kafe';
           btn1.addEventListener('click', () =>
             advanceOrderStatus(order.id, 'COURIER_TO_CAFE', 'Kurir Gojek menuju Langsa Brew & Bites.')
@@ -3116,7 +3101,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         } else if (order.status === 'COURIER_TO_CAFE') {
           const btn2 = document.createElement('button');
           btn2.type = 'button';
-          btn2.className = 'btn-caramel-grad px-4 py-2 rounded-xl text-xs font-bold';
+          btn2.className = 'w-full sm:w-auto btn-caramel-grad px-4 py-2 rounded-xl text-xs font-bold';
           btn2.textContent = '2. Mengantar ke Pembeli';
           btn2.addEventListener('click', () =>
             advanceOrderStatus(order.id, 'DELIVERING', 'Pesanan ' + order.id + ' sedang diantar ke lokasi pembeli.')
@@ -3125,7 +3110,7 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         } else if (order.status === 'DELIVERING') {
           const btn3 = document.createElement('button');
           btn3.type = 'button';
-          btn3.className = 'btn-sage px-4 py-2 rounded-xl text-xs font-bold';
+          btn3.className = 'w-full sm:w-auto btn-sage px-4 py-2 rounded-xl text-xs font-bold';
           btn3.textContent = '3. Selesai Diantar';
           btn3.addEventListener('click', () =>
             advanceOrderStatus(order.id, 'COMPLETED', 'Pengantaran ' + order.id + ' selesai! Terima kasih.')
@@ -3162,15 +3147,14 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       document.querySelectorAll('.role-tab').forEach((btn) => {
         const isActive = btn.getAttribute('data-role') === newRole;
         btn.className = isActive
-          ? 'role-tab px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 bg-caramel text-white shadow-sm'
-          : 'role-tab px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-warmCream/80 hover:text-goldWarm';
+          ? 'role-tab flex-1 xl:flex-none justify-center whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 bg-caramel text-white shadow-sm'
+          : 'role-tab flex-1 xl:flex-none justify-center whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-warmCream/80 hover:text-goldWarm';
       });
 
       renderAllRoleViews();
     }
 
     function bindEvents() {
-      // Role Tabs
       document.querySelectorAll('.role-tab').forEach((btn) => {
         btn.addEventListener('click', () => {
           const role = btn.getAttribute('data-role');
@@ -3178,7 +3162,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       });
 
-      // Navigasi Tab Halaman Pembeli (Menu | Keranjang | Lokasi/Checkout | Lacak Pesanan)
       document.querySelectorAll('.buyer-nav-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
           const tab = btn.getAttribute('data-buyer-tab');
@@ -3193,7 +3176,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       });
 
-      // Toggle Tentang Kami
       const toggleAboutBtn = document.getElementById('toggleAboutBtn');
       const aboutSection = document.getElementById('aboutSection');
       if (toggleAboutBtn && aboutSection) {
@@ -3202,7 +3184,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       }
 
-      // Search & Filter Kategori
       const searchInput = document.getElementById('searchMenuInput');
       if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -3236,19 +3217,18 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
             const isFavBtn = b.getAttribute('data-category') === 'favorites';
             if (active) {
               b.className = isFavBtn
-                ? 'cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-500 to-yellow-500 text-espresso shadow-sm transition flex items-center gap-1'
-                : 'cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition';
+                ? 'cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-500 to-yellow-500 text-espresso shadow-sm transition flex items-center gap-1'
+                : 'cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-espresso text-goldWarm shadow-sm transition';
             } else {
               b.className = isFavBtn
-                ? 'cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-900 border border-amber-300 hover:border-amber-500 transition flex items-center gap-1'
-                : 'cat-btn px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition';
+                ? 'cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-900 border border-amber-300 hover:border-amber-500 transition flex items-center gap-1'
+                : 'cat-btn whitespace-nowrap shrink-0 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-warmCream text-espresso border border-sand hover:border-caramel transition';
             }
           });
           renderMenuCatalog();
         });
       });
 
-      // Kosongkan Keranjang
       document.getElementById('clearCartBtn').addEventListener('click', () => {
         state.cart = [];
         state.appliedVoucher = null;
@@ -3259,7 +3239,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         showToast('Keranjang dikosongkan.', 'info');
       });
 
-      // Voucher Diskon Otomatis
       const applyVoucherCode = (rawCode) => {
         const code = sanitizeText(rawCode, 20).toUpperCase();
         const statusEl = document.getElementById('voucherStatusText');
@@ -3291,9 +3270,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       });
 
-
-
-      // Preset Lokasi Populer Kota Langsa
       document.querySelectorAll('.preset-loc').forEach((btn) => {
         btn.addEventListener('click', () => {
           state.buyerLocation.lat = parseFloat(btn.getAttribute('data-lat'));
@@ -3305,7 +3281,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       });
 
-      // GPS Perangkat
       document.getElementById('useGpsBtn').addEventListener('click', () => {
         if (!navigator.geolocation) {
           showToast('Browser tidak mendukung GPS. Menggunakan titik simulasi Kota Langsa.', 'warning');
@@ -3353,7 +3328,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       };
 
-      // Metode Pengiriman
       document.querySelectorAll('.delivery-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
           state.deliveryMethod = btn.getAttribute('data-delivery') || 'gojek';
@@ -3367,7 +3341,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       });
 
-      // Metode Pembayaran
       document.querySelectorAll('.payment-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
           state.paymentMethod = btn.getAttribute('data-payment') || 'QRIS';
@@ -3393,7 +3366,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         });
       });
 
-      // Modal QRIS
       const qrisModal = document.getElementById('qrisModal');
       document.getElementById('showQrisModalBtn').addEventListener('click', () => {
         qrisModal.classList.remove('hidden');
@@ -3406,7 +3378,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       document.getElementById('closeQrisModalBtn').addEventListener('click', closeModal);
       document.getElementById('confirmQrisDoneBtn').addEventListener('click', closeModal);
 
-      // Submit Pesanan Baru
       document.getElementById('submitOrderBtn').addEventListener('click', () => {
         if (state.cart.length === 0) {
           showToast('Keranjang masih kosong. Pilih menu terlebih dahulu.', 'warning');
@@ -3452,7 +3423,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         showToast('Pesanan ' + newOrder.id + ' terkirim ke dapur Langsa Brew & Bites!', 'success');
       });
 
-      // Kirim Rincian ke WhatsApp
       document.getElementById('whatsappOrderBtn').addEventListener('click', () => {
         if (state.cart.length === 0) {
           showToast('Keranjang kosong, tidak ada rincian untuk dikirim ke WhatsApp.', 'warning');
@@ -3480,7 +3450,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         window.open(waUrl, '_blank', 'noopener,noreferrer');
       });
 
-      // Event Modal Ulasan & Rating Bintang (1-5)
       const reviewModal = document.getElementById('reviewModal');
       const closeReviewModal = () => {
         reviewModal.classList.add('hidden');
@@ -3545,7 +3514,6 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
         showToast('Terima kasih! Ulasan ' + state.selectedStarRating + ' bintang berhasil disimpan.', 'success');
       });
 
-      // Fungsi Reset Simulasi Menyeluruh (Hapus riwayat pesanan, keranjang & ulasan, kembalikan semua angka ke 0)
       const performResetSimulation = () => {
         state.orders = [];
         state.cart = [];
@@ -3571,9 +3539,9 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
 
       document.getElementById('resetDemoDataBtn').addEventListener('click', performResetSimulation);
       document.getElementById('resetSimHeaderBtn').addEventListener('click', performResetSimulation);
+      document.getElementById('resetSimMobileBtn').addEventListener('click', performResetSimulation);
       document.getElementById('resetSimFooterBtn').addEventListener('click', performResetSimulation);
 
-      // Event Halaman Login & Tab Registrasi
       document.getElementById('tabLoginBtn').addEventListener('click', () => switchAuthTab('login'));
       document.getElementById('tabRegisterBtn').addEventListener('click', () => switchAuthTab('register'));
 
@@ -3604,6 +3572,12 @@ const INITIAL_LANGSA_FAVORITE_REVIEWS = Object.freeze([
       document.getElementById('registerForm').addEventListener('submit', handleRegisterSubmit);
       document.getElementById('logoutBtn').addEventListener('click', handleLogout);
       document.getElementById('logoutBtnMobile').addEventListener('click', handleLogout);
+
+      window.addEventListener('resize', () => {
+        if (leafletMap && state.buyerTab === 'checkout') {
+          leafletMap.invalidateSize();
+        }
+      });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
